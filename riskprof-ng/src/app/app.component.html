@@ -1,0 +1,28 @@
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 mt-4">
+            <h3>{{ status }}</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 mt-2 mb-2">
+            <button class="btn btn-outline-primary"
+                    (click)="goUp()">Вверх</button>
+        </div>
+    </div>
+    <div class="row">
+        <ul class="col-12">
+            <ul class="list-group">
+                <!-- if activeRating is null, we are at root now -->
+                <li *ngFor="let rating of (activeRating?.children || ratings)"
+                    (click)="loadRating(rating)"
+                    class="list-group-item">{{ rating.title }}</li>
+            </ul>
+        </ul>
+    </div>
+</div>
+
+
+<router-outlet></router-outlet>
