@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, ObservableInput, throwError } from 'rxjs';
 import { catchError, map, retry } from 'rxjs/operators';
@@ -37,6 +37,56 @@ export class ApiService {
                 });
             }),
             catchError(this.errorHandler));
+    }
+
+    public create (rating: RatingDto): Observable<RatingDto> {
+        var options = { 
+            headers: new HttpHeaders({'Content-Type': 'text/plain'}), 
+            params: new HttpParams()
+        };
+        options.params = options.params.append('parentId', rating.parentId.toString());
+        options.params = options.params.append('title', rating.title);
+        options.params = options.params.append('key', rating.key);
+
+        return this.http.post(
+            this.host + '/create/rating', {}, options)
+            .pipe(map((response: any) => {
+                rating.id = response;
+                return rating;
+            }));
+    }
+
+    public update (rating: RatingDto): Observable<RatingDto> {
+        var options = { 
+            headers: new HttpHeaders({'Content-Type': 'text/plain'}), 
+            params: new HttpParams()
+        };
+        options.params = options.params.append('id', rating.id.toString());
+        options.params = options.params.append('parentId', rating.parentId.toString());
+        options.params = options.params.append('title', rating.title);
+        options.params = options.params.append('key', rating.key);
+
+        return this.http.post(
+            this.host + '/update/rating', {}, options)
+            .pipe(map((response: any) => {
+                if (response == "Ок")
+                    return rating;
+                else throw "Some error on update!";
+            }));
+    }
+
+    public delete (rating: RatingDto): Observable<boolean> {
+        var options = { 
+            headers: new HttpHeaders({'Access-Control-Allow-Methods': 'DELETE'}), 
+            // params: new HttpParams()
+        };
+        // options.params = options.params.append('id', rating.id.toString());
+
+        return this.http.delete(
+            this.host + '/delete/rating?id=' + rating.id, options)
+            .pipe(map((response: any) => {
+                return (response === "Ок")
+            }));
     }
 
     private errorHandler(error: any): ObservableInput<any> {

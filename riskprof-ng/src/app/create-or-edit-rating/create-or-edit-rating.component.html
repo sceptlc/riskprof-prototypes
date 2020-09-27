@@ -1,0 +1,23 @@
+<ng-template #modalTemplate>
+    <div class="modal-header">
+        <h4 class="modal-title">
+            {{ (isNewRating) ? 'Новый рейинг' : 'Изменить рейтинг' }}
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="close()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input [(ngModel)]="rating.title" type="text" class="form-control" name="title" id="title">
+                <label for="key">Key</label>
+                <input [(ngModel)]="rating.key" type="text" class="form-control" name="key" id="key">
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="save()">Save</button>
+    </div>
+</ng-template>

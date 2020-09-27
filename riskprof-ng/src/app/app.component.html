@@ -10,6 +10,8 @@
         <div class="col-12 mt-2 mb-2">
             <button class="btn btn-outline-primary"
                     (click)="goUp()">Вверх</button>
+            <button class="btn btn-outline-primary ml-2"
+                    (click)="createRating()">Создать новый</button>
         </div>
     </div>
     <div class="row">
@@ -18,7 +20,13 @@
                 <!-- if activeRating is null, we are at root now -->
                 <li *ngFor="let rating of (activeRating?.children || ratings)"
                     (click)="loadRating(rating)"
-                    class="list-group-item">{{ rating.title }}</li>
+                    class="list-group-item">
+                    {{ rating.title }}
+                    <button class="btn btn-outline-danger btn-sm ml-1 float-right"
+                    (click)="deleteRating($event, rating)">Удалить</button>
+                    <button class="btn btn-secondary btn-sm float-right"
+                        (click)="editRating($event, rating)">Изменить</button>
+                </li>
             </ul>
         </ul>
     </div>
@@ -26,3 +34,7 @@
 
 
 <router-outlet></router-outlet>
+
+<create-or-edit-rating #createOrEditRating
+    (created)="onNewRatingCreated($event)">
+</create-or-edit-rating>
