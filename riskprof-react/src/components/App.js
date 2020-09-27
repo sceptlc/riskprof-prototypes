@@ -1,12 +1,19 @@
 import React from 'react';
-import './../styles/App.scss';
+import Ratings from './Ratings';
+import CreateOrEditRating from './CreateOrEditRating';
+import '../styles/App.scss';
 
-function App() {
-  return (
-    <div className="App">
 
-    </div>
-  );
+class App extends React.Component {
+    render() {
+        return (
+            <div className="container">
+                <div className="row">
+                    <Ratings/>
+                </div>
+            </div>
+        );
+    }
 }
 
 export default App;
