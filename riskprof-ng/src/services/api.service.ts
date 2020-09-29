@@ -77,13 +77,13 @@ export class ApiService {
 
     public delete (rating: RatingDto): Observable<boolean> {
         var options = { 
-            headers: new HttpHeaders({'Access-Control-Allow-Methods': 'DELETE'}), 
-            // params: new HttpParams()
+            headers: new HttpHeaders({'Content-Type': 'text/plain'}), 
+            params: new HttpParams()
         };
-        // options.params = options.params.append('id', rating.id.toString());
+        options.params = options.params.append('id', rating.id.toString());
 
-        return this.http.delete(
-            this.host + '/delete/rating?id=' + rating.id, options)
+        return this.http.post(
+            this.host + '/delete/rating', {}, options)
             .pipe(map((response: any) => {
                 return (response === "Ок")
             }));

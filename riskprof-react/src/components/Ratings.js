@@ -29,13 +29,32 @@ class Ratings extends React.Component {
         RatingActions.getRootRatings();
     }
 
-    loadRating(rating, event) {
+    loadRating(rating) {
         this.setState({
             activeRating: rating, 
             status: rating.title
         });
         RatingActions.getRatingChildren(rating);
-        // event.stopPropagation();
+    }
+
+    deleteRating(rating, event) {
+        event.stopPropagation();
+        if (window.confirm("Удалить рейтинг " + rating.title + "?"))
+            RatingActions.deleteRating(rating);
+    }
+    
+    editRating(rating, event) {
+        this.modalRef.current.show(rating, rating.parent);
+        event.stopPropagation();
+    }
+
+    onFormSave(rating) {
+        console.log("Got rating to save: ", rating);
+        if (rating.id === -1) {
+            RatingActions.createRating(rating);
+        } else {
+            RatingActions.updateRating(rating);
+        }
     }
 
     goUp() {
@@ -64,7 +83,7 @@ class Ratings extends React.Component {
                         Вверх
                     </button>
                     <button className="btn btn-outline-primary ml-2"
-                            onClick={ () => { this.modalRef.current.show() } }>
+                            onClick={ () => { this.modalRef.current.show(null, this.state.activeRating) } }>
                             Создать новый
                     </button>
                 </div>
@@ -74,14 +93,18 @@ class Ratings extends React.Component {
                             (
                                 <li key={ rating.id }
                                     className="list-group-item rating-li"
-                                    onClick={ (e) => this.loadRating(rating, e) }>
+                                    onClick={ () => this.loadRating(rating) }>
                                     { rating.title }
+                                    <button className="btn btn-outline-danger btn-sm ml-1 float-right"
+                                        onClick={(e) => this.deleteRating(rating, e)}>Удалить</button>
+                                    <button className="btn btn-secondary btn-sm float-right"
+                                        onClick={(e) => this.editRating(rating,e)}>Изменить</button>
                                 </li>
                             )
                         )}
                     </div>
                 </div>
-                <CreateOrEditRating ref={this.modalRef} />
+                <CreateOrEditRating ref={this.modalRef} onSave={this.onFormSave.bind(this)}/>
             </Fragment>
         );
     }

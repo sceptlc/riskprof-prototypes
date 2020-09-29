@@ -1,19 +1,36 @@
 import React from 'react';
+import { Button } from 'react-bootstrap';
 import Modal from "react-bootstrap/Modal";
 
 
 class CreateOrEditRating extends React.Component {
 
-    constructor (props) { 
+    constructor(props) {
         super(props);
 
         this.state = {
-            isOpen: false
+            isOpen: false,
+            isNewRating: true,
+            rating: null
         }
     }
 
-    show = () => {
-        this.setState({ isOpen: true });
+    show = (rating = null, parent = null) => {
+        var isNewRating = rating === null;
+        rating = rating || {
+            id: -1,
+            parent,
+            parentId: parent?.id,
+            title: "",
+            key: ""
+        };
+
+        this.setState({
+            isOpen: true,
+            isNewRating,
+            rating,
+            children: []
+        });
     }
 
     hide = () => {
@@ -24,18 +41,39 @@ class CreateOrEditRating extends React.Component {
         this.hide();
     }
 
+    handleInputChange = (event) => {
+        const target = event.target;
+        var rating = this.state.rating;
+        rating[target.name] = target.value;
+        this.setState({ rating });
+    }
+
+    save = () => {
+        this.props.onSave(this.state.rating);
+        this.hide();
+    }
+
     render() {
         return (
             <Modal show={this.state.isOpen} onHide={this.onHide}>
                 <Modal.Header>
-                    <Modal.Title>Новый рейинг</Modal.Title>
+                    <Modal.Title>{this.state.isNewRating ? 'Новый рейинг' : 'Редактировать рейтинг'}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <input/>
+                    <div className="form-group">
+                        <label htmlFor="title">Title</label>
+                        <input onChange={this.handleInputChange} 
+                               value={this.state.rating?.title} 
+                               type="text" className="form-control" name="title" id="title"/>
+                        <label htmlFor="key">Key</label>
+                        <input onChange={this.handleInputChange} 
+                               value={this.state.rating?.key}
+                               type="text" className="form-control" name="key" id="key"/>
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <button onClick={this.hide}>Cancel</button>
-                    <button>Save</button>
+                    <Button onClick={this.hide}>Cancel</Button>
+                    <Button onClick={this.save}>Save</Button>
                 </Modal.Footer>
             </Modal>
         )

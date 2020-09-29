@@ -66,9 +66,9 @@ export class AppComponent implements OnInit {
             this._apiService.delete(ratingToDelete).subscribe(res => {
                 if (ratingToDelete.parent)
                     ratingToDelete.parent.children
-                         = ratingToDelete.parent.children.filter(r => r.id === ratingToDelete.id);
+                         = ratingToDelete.parent.children.filter(r => r.id !== ratingToDelete.id);
                 else 
-                    this.ratings.filter(r => r.id === ratingToDelete.id);
+                    this.ratings.filter(r => r.id !== ratingToDelete.id);
             });
         }
     }

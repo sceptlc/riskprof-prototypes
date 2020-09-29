@@ -8,21 +8,10 @@ class RatingStore extends EventEmitter {
 
         // { parentId => [ children ]}
         // {'root' => [ root ratings ]}
-        this.ratings = {
-            // {
-            //     id: 2, 
-            //     parentId: null,
-            //     title: "This is rating",
-            //     key: "my-key",
-            //     children: [],
-            //     parent: null
-            // }
-        }
+        this.ratings = { };
     }
 
     handleActions(action) {
-        console.log("Received an action!");
-
         switch (action.type) {
             case "RATING_CREATED": 
                 this.createRating(action.rating);
@@ -45,11 +34,14 @@ class RatingStore extends EventEmitter {
     }
 
     createRating(rating) {
-
+        this.ratings[rating?.parentId || "root"].push(rating);
+        this.emit("change");
     }
 
     deleteRating(rating) {
-
+        const index = this.ratings[rating.parentId].findIndex(el => el.id === rating.id);
+        this.ratings[rating.parentId].splice(index, 1);
+        this.emit("change");
     }
 
     updateRating(rating) {

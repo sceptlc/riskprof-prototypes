@@ -1,28 +1,61 @@
 import dispatcher from '../dispatcher';
 
 export function createRating(rating) {
-    dispatcher.dispatch({
-        type: 'CREATE_RATING',
-        rating
-    });
+    fetch("http://rating.141.riskprof.ru/ajax/create/rating" +
+        "?parentId=" + rating.parentId.toString() +
+        "&title=" + rating.title +
+        "&key=" + rating.key,
+        { method: 'POST' }
+    )
+        .then(response => {
+            console.log("response: ", response);
+            if (response.status === 200) {
+                dispatcher.dispatch({
+                    type: 'RATING_CREATED',
+                    rating
+                });
+            }
+        });
 }
+
 
 export function deleteRating(rating) {
-    dispatcher.dispatch({
-        type: 'DELETE_RATING',
-        rating
-    });
+    fetch("http://rating.141.riskprof.ru/ajax/delete/rating?id=" + rating.id,
+        { method: 'POST' }
+    )
+        .then(response => {
+            console.log("response: ", response);
+            if (response.status === 200) {
+                dispatcher.dispatch({
+                    type: 'RATING_DELETED',
+                    rating
+                });
+            }
+        });
 }
+
 
 export function updateRating(rating) {
-    dispatcher.dispatch({
-        type: 'UPDATE_RATING',
-        rating
-    });
+    fetch("http://rating.141.riskprof.ru/ajax/update/rating" +
+        "?id=" + rating.id.toString() +
+        "&parentId=" + rating.parentId.toString() +
+        "&title=" + rating.title +
+        "&key=" + rating.key,
+        { method: 'POST' }
+    )
+        .then(response => response.json())
+        .then(json => {
+            console.log(json);
+
+            dispatcher.dispatch({
+                type: 'RATING_UPDATED',
+                rating
+            });
+        });
 }
 
-export function getRatingChildren(rating) {
 
+export function getRatingChildren(rating) {
     fetch("http://rating.141.riskprof.ru/ajax/list/rating?parentId=" + rating.id)
         .then(response => response.json())
         .then(json => {
@@ -46,9 +79,7 @@ export function getRatingChildren(rating) {
 }
 
 
-
 export function getRootRatings() {
-
     fetch("http://rating.141.riskprof.ru/ajax/list/rating?isRoot=true")
         .then(response => response.json())
         .then(json => {
