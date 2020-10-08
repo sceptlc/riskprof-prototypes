@@ -1,7 +1,7 @@
 <ng-template #modalTemplate>
     <div class="modal-header">
         <h4 class="modal-title">
-            {{ (isNewRating) ? 'Новый рейинг' : 'Изменить рейтинг' }}
+            {{ (isNewRating) ? 'Новый рейтинг' : 'Редактировать рейтинг' }}
         </h4>
         <button type="button" class="close" aria-label="Close" (click)="close()">
             <span aria-hidden="true">&times;</span>
@@ -18,6 +18,6 @@
         </form>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="save()">Save</button>
+        <button type="button" class="btn btn-outline-dark" (click)="save()">Сохранить</button>
     </div>
 </ng-template>

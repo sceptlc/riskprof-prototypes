@@ -1,11 +1,11 @@
 <template>
   <div class="container">
-      <ratings />
+    <ratings />
   </div>
 </template>
 
 <script>
-import Ratings from "./Ratings";
+import Ratings from "./components/Ratings";
 
 export default {
   name: "app",

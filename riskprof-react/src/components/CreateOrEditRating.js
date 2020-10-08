@@ -57,23 +57,22 @@ class CreateOrEditRating extends React.Component {
         return (
             <Modal show={this.state.isOpen} onHide={this.onHide}>
                 <Modal.Header>
-                    <Modal.Title>{this.state.isNewRating ? 'Новый рейинг' : 'Редактировать рейтинг'}</Modal.Title>
+                    <Modal.Title>{this.state.isNewRating ? 'Новый рейтинг' : 'Редактировать рейтинг'}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="form-group">
                         <label htmlFor="title">Title</label>
                         <input onChange={this.handleInputChange} 
-                               value={this.state.rating?.title} 
+                               value={this.state.rating?.title || ""} 
                                type="text" className="form-control" name="title" id="title"/>
                         <label htmlFor="key">Key</label>
                         <input onChange={this.handleInputChange} 
-                               value={this.state.rating?.key}
+                               value={this.state.rating?.key || ""}
                                type="text" className="form-control" name="key" id="key"/>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={this.hide}>Cancel</Button>
-                    <Button onClick={this.save}>Save</Button>
+                    <Button onClick={this.save}>Сохранить</Button>
                 </Modal.Footer>
             </Modal>
         )
