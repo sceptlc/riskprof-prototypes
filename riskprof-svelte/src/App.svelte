@@ -1,19 +1,15 @@
 <script>
 	import { Col, Container, Row } from 'sveltestrap';
-	
-	let name = "Bogdan";
+	import Ratings from './Ratings.svelte';
 </script>
 
-<main>
-	<Container>
-		<Row>
-			<Col>
-				<h1>Hello {name}!</h1>
-			</Col>
-		</Row>
-
-	</Container>
-</main>
+<Container>
+	<Row>
+		<Col>
+			<Ratings/>
+		</Col>
+	</Row>
+</Container>
 
 <style>
 </style>
