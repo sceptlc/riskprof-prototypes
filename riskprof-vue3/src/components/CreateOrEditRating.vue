@@ -10,16 +10,20 @@
           </button>
         </div>
         <div class="modal-body">
-          <div className="form-group">
-            <label htmlFor="title">Title</label>
+          <div class="form-group">
+            <label for="title">Title</label>
             <input
               v-model="rating.Title"
-              id="title" type="text" className="form-control"
+              id="title"
+              type="text"
+              class="form-control"
             />
-            <label htmlFor="key">Key</label>
+            <label for="key">Key</label>
             <input
               v-model="rating.Key"
-              id="key" type="text" className="form-control"
+              id="key"
+              type="text"
+              class="form-control"
             />
           </div>
         </div>
@@ -54,9 +58,11 @@ export default {
     model: Object,
   },
   computed: {
-      title() {
-          return (this.rating.Id === null) ? "Новый рейтинг" : "Редактировать рейтинг";
-      }
+    title() {
+      return this.rating.Id === null
+        ? "Новый рейтинг"
+        : "Редактировать рейтинг";
+    },
   },
   mounted() {
     if (this.model === null)

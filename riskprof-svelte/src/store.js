@@ -49,9 +49,13 @@ function createRatingStore(initial) {
 
         fetch(url, { method, body })
             .then(response => {
-                if (response.ok)
+                if (response.ok) {
+                    store.update(ratings => {
+                        ratings.map(r => r.id === rating.id ? rating : r);
+                        return ratings;
+                    });
                     console.log("Rating updated");
-                else 
+                } else 
                     alert("Error!");
             });
     }
